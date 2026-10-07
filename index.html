@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Рабочий лист: расход ткани</title>
+<style>
+:root{--bg:#f3f7fb;--card:#fff;--ink:#1f2a37;--mute:#5b6b7c;--line:#d5e0ea;--a:#2f6fdb;--ok:#1d9a5b;--okbg:#e2f6ec;--bad:#d2452f;--badbg:#fdebe7;--hl:#fff3c4;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141a22;--card:#1d2631;--ink:#e8eef5;--mute:#9fb0c2;--line:#33414f;--a:#6ea1ff;--ok:#4ed28f;--okbg:#17382a;--bad:#ff8b78;--badbg:#42221c;--hl:#4a4020}}
+:root[data-theme="dark"]{--bg:#141a22;--card:#1d2631;--ink:#e8eef5;--mute:#9fb0c2;--line:#33414f;--a:#6ea1ff;--ok:#4ed28f;--okbg:#17382a;--bad:#ff8b78;--badbg:#42221c;--hl:#4a4020}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+main{max-width:820px;margin:0 auto;padding:16px 14px 60px}
+h1{font:700 28px/1.2 "Trebuchet MS",Verdana,sans-serif;margin:8px 0 4px}
+h2{font:700 21px/1.25 "Trebuchet MS",Verdana,sans-serif;margin:0 0 6px}
+.sub{color:var(--mute);margin:0 0 14px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 12px;margin:10px 0 18px;display:flex;gap:12px;align-items:center;font-family:"Trebuchet MS",Verdana,sans-serif;font-size:15px}
+.track{flex:1;height:12px;background:var(--line);border-radius:8px;overflow:hidden}
+.fill{height:100%;width:0;background:var(--ok);transition:width .4s}
+section{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:16px;margin:0 0 18px}
+.rule{background:var(--hl);border-radius:12px;padding:10px 14px;margin:10px 0}
+.rule b{font-family:"Trebuchet MS",Verdana,sans-serif}
+.scheme{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.scheme div{flex:1 1 150px;border:2px dashed var(--a);border-radius:12px;padding:8px;text-align:center;font-size:15px}
+.scheme strong{display:block;font-size:19px;color:var(--a)}
+.task{padding:10px 0;border-top:1px solid var(--line)}
+.task:first-of-type{border-top:0}
+.q{margin:0 0 6px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+input[type=number]{width:96px;font:inherit;padding:6px 8px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+button{font:600 15px "Trebuchet MS",Verdana,sans-serif;border:0;border-radius:10px;padding:8px 14px;background:var(--a);color:#fff;cursor:pointer}
+button.alt{background:transparent;color:var(--a);border:2px solid var(--a)}
+button.opt.sel{outline:3px solid var(--hl);background:var(--ink);color:var(--bg)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+.fb{font:15px "Trebuchet MS",Verdana,sans-serif;margin-top:4px;min-height:1.2em}
+.task.ok{background:var(--okbg);border-radius:10px;padding-left:8px;padding-right:8px}
+.task.ok .fb{color:var(--ok)}
+.task.no .fb{color:var(--bad)}
+table{border-collapse:collapse;width:100%;font-size:16px}
+th,td{border:2px solid var(--line);padding:6px;text-align:center}
+th{background:var(--bg);font:600 14px "Trebuchet MS",Verdana,sans-serif}
+tr.ok td{background:var(--okbg)}
+tr.no td.res{background:var(--badbg)}
+.wrap{overflow-x:auto}
+.final{text-align:center;font:700 22px "Trebuchet MS",Verdana,sans-serif;display:none}
+.final.show{display:block}
+</style>
+</head>
+<body>
+<main>
+<h1>🧵 Сколько ткани нужно?</h1>
+<p class="sub">Рабочий лист по математике, 3 класс. Решай, вводи ответ и нажимай «Проверить».</p>
+<div class="bar"><span id="sc">Решено: 0 из 0</span><div class="track"><div class="fill" id="fl"></div></div></div>
+
+<section>
+<h2>Вспомни правило</h2>
+<p>В мастерской шьют одинаковые вещи. В задачах встречаются три величины:</p>
+<div class="scheme">
+<div><strong>расход на 1 предмет</strong>сколько метров нужно на одну вещь</div>
+<div><strong>количество предметов</strong>сколько вещей шьют</div>
+<div><strong>расход на все</strong>сколько метров ткани уйдёт всего</div>
+</div>
+<div class="rule"><b>Расход на все</b> = расход на 1 предмет × количество предметов<br>
+<b>Количество предметов</b> = расход на все ÷ расход на 1 предмет<br>
+<b>Расход на 1 предмет</b> = расход на все ÷ количество предметов</div>
+<p><b>Пример.</b> На 1 платье нужно 3 м ткани. Сколько ткани нужно на 4 платья? 3 × 4 = 12 (м). Если предметов больше, то и ткани нужно больше.</p>
+</section>
+
+<section id="s1"><h2>Задание 1. Заполни таблицу</h2><p class="sub">Найди пропущенное число. Расход измеряется в метрах (м).</p><div class="wrap"><table><thead><tr><th>Вещь</th><th>На 1 предмет, м</th><th>Предметов, шт.</th><th>На все, м</th><th></th></tr></thead><tbody id="t1"></tbody></table></div></section>
+
+<section id="s2"><h2>Задание 2. Выбери действие</h2><p class="sub">Какое действие поможет ответить на вопрос? Нажми на вариант, потом на «Проверить».</p><div id="c2"></div></section>
+
+<section id="s3"><h2>Задание 3. Задачи</h2><p class="sub">Запиши только число.</p><div id="c3"></div></section>
+
+<section id="s4"><h2>Задание 4. Верно или неверно?</h2><div id="c4"></div></section>
+
+<section id="s5"><h2>Задание 5. Сравни расход</h2><p class="sub">Сначала посчитай, потом выбери, где ткани уйдёт больше.</p><div id="c5"></div></section>
+
+<section id="s6"><h2>Задание 6. Задачи в два действия ⭐</h2><div id="c6"></div></section>
+
+<section id="s7"><h2>Задание 7. Тренажёр</h2><p class="sub">Задачи каждый раз новые. Решай сколько хочешь!</p><div id="c7"></div><p class="row"><button class="alt" id="newT">Новая задача</button><span id="tc" class="fb"></span></p></section>
+
+<section><p class="final" id="fin"></p></section>
+</main>
+<script>
+const $=s=>document.querySelector(s),done=new Set();let total=0;
+function upd(){$('#sc').textContent='Решено: '+done.size+' из '+total;$('#fl').style.width=(total?done.size/total*100:0)+'%';
+if(done.size===total){const f=$('#fin');f.textContent='🎉 Молодец! Ты решил(а) все задания листа!';f.classList.add('show')}}
+function el(h){const d=document.createElement('div');d.innerHTML=h.trim();return d.firstChild}
+function mark(box,id,good,msg){box.classList.remove('ok','no');box.classList.add(good?'ok':'no');box.querySelector('.fb').textContent=msg;if(good){done.add(id);upd()}}
+function num(box,id,ans,hint){const v=box.querySelector('input').value;if(v==='')return box.querySelector('.fb').textContent='Введи число.';
+mark(box,id,+v===ans,+v===ans?'Верно! ✅':hint)}
+function bindEnter(box,fn){const i=box.querySelector('input');if(i)i.addEventListener('keydown',e=>{if(e.key==='Enter')fn()})}
+
+/* 1. таблица */
+const T1=[['Платье',3,4,null],['Штора',4,6,null],['Фартук',2,null,18],['Сумка',null,5,20],['Скатерть',5,null,35],['Пододеяльник',null,3,18],['Шарф',2,9,null],['Наволочка',null,8,16]];
+T1.forEach((r,i)=>{const id='t'+i,[n,a,b,c]=r;const ans=a===null?c/b:b===null?c/a:a*b;
+const cell=(v,k)=>v===null?'<input type="number" min="0" aria-label="пропуск">':v;
+const tr=el(`<table><tr><td>${n}</td><td class="${a===null?'res':''}">${cell(a)}</td><td class="${b===null?'res':''}">${cell(b)}</td><td class="${c===null?'res':''}">${cell(c)}</td><td><button>Проверить</button><div class="fb"></div></td></tr></table>`).querySelector('tr');
+$('#t1').appendChild(tr);total++;
+const chk=()=>{const v=tr.querySelector('input').value;if(v==='')return;const g=+v===ans;tr.classList.remove('ok','no');tr.classList.add(g?'ok':'no');tr.querySelector('.fb').textContent=g?'✅':'Проверь действие';if(g){done.add(id);upd()}};
+tr.querySelector('button').onclick=chk;tr.querySelector('input').addEventListener('keydown',e=>{if(e.key==='Enter')chk()})});
+
+/* 2. выбор действия */
+const C2=[['На 1 платье нужно 3 м ткани. Сколько ткани нужно на 5 платьев?',0],['Всего 24 м ткани, на 1 штору идёт 4 м. Сколько штор получится?',1],['Из 18 м ткани сшили 6 одинаковых фартуков. Сколько ткани ушло на 1 фартук?',1],['На 1 сумку нужно 2 м ткани. Сколько ткани нужно на 7 сумок?',0],['Для 4 одинаковых скатертей купили 20 м ткани. Сколько ткани на одну скатерть?',1],['На 1 костюм нужно 5 м ткани. Сколько ткани нужно на 3 костюма?',0]];
+C2.forEach((r,i)=>{const id='c'+i;total++;let sel=-1;
+const b=el(`<div class="task"><p class="q">${r[0]}</p><div class="row"><button class="alt opt">× умножение</button><button class="alt opt">÷ деление</button><button>Проверить</button></div><div class="fb"></div></div>`);
+const o=b.querySelectorAll('.opt');o.forEach((x,k)=>x.onclick=()=>{sel=k;o.forEach((y,j)=>y.classList.toggle('sel',j===k))});
+b.lastElementChild.previousElementSibling.lastElementChild.onclick=()=>{if(sel<0)return b.querySelector('.fb').textContent='Выбери действие.';
+mark(b,id,sel===r[1],sel===r[1]?'Верно! '+(r[1]?'Ткань делим поровну.':'Одинаковые части складываем: умножаем.'):'Подумай: ищем «на все» (умножение) или «на 1 / количество» (деление)?')};
+$('#c2').appendChild(b)});
+
+/* 3. задачи */
+const C3=[['Ателье шьёт 8 одинаковых блузок. На одну блузку нужно 2 м ткани. Сколько метров ткани нужно на все блузки?',16],['На 6 одинаковых шарфов ушло 12 м ткани. Сколько метров ткани ушло на один шарф?',2],['Из 35 м ткани шьют куртки. На одну куртку нужно 5 м. Сколько курток сошьют?',7],['На один школьный фартук нужно 3 м ткани. Сколько метров нужно на 9 фартуков?',27],['Купили 28 м ткани на 7 одинаковых платьев. Сколько метров нужно на одно платье?',4],['На одну сумку идёт 2 м ткани. Сколько сумок сошьют из 16 м?',8],['Для класса шьют 10 одинаковых костюмов. На один костюм нужно 4 м ткани. Сколько метров ткани нужно?',40],['Из 45 м ткани сшили 9 одинаковых халатов. Сколько ткани ушло на один халат?',5]];
+C3.forEach((r,i)=>{const id='w'+i;total++;
+const b=el(`<div class="task"><p class="q">${i+1}. ${r[0]}</p><div class="row"><input type="number" min="0" aria-label="ответ"><button>Проверить</button></div><div class="fb"></div></div>`);
+const f=()=>num(b,id,r[1],'Пока не так. Назови, что известно и что нужно найти.');b.querySelector('button').onclick=f;bindEnter(b,f);$('#c3').appendChild(b)});
+
+/* 4. верно/неверно */
+const C4=[['Если на 1 предмет нужно 4 м, то на 3 таких предмета нужно 12 м.',1],['Если на 5 предметов ушло 20 м, то на один предмет уходит 5 м.',0],['Чем больше предметов шьют, тем больше ткани нужно (расход на 1 предмет не меняется).',1],['Чтобы найти, сколько ткани нужно на все предметы, надо делить.',0],['Из 18 м ткани по 3 м на предмет получится 6 предметов.',1],['Если на 1 предмет нужно 2 м, то на 10 предметов нужно 12 м.',0]];
+const EX4=['Верно: 4 × 3 = 12.','Неверно: 20 ÷ 5 = 4 (м).','Верно, ткани нужно больше.','Неверно: чтобы найти расход на все, умножаем.','Верно: 18 ÷ 3 = 6.','Неверно: 2 × 10 = 20 (м).'];
+C4.forEach((r,i)=>{const id='v'+i;total++;
+const b=el(`<div class="task"><p class="q">${r[0]}</p><div class="row"><button class="alt">Верно</button><button class="alt">Неверно</button></div><div class="fb"></div></div>`);
+const bs=b.querySelectorAll('button');bs[0].onclick=()=>mark(b,id,r[1]===1,r[1]===1?'Правильно! '+EX4[i]:'Проверь вычислением.');
+bs[1].onclick=()=>mark(b,id,r[1]===0,r[1]===0?'Правильно! '+EX4[i]:'Проверь вычислением.');$('#c4').appendChild(b)});
+
+/* 5. сравнение */
+const C5=[['На 4 платья по 3 м и на 5 штор по 2 м. Где ткани больше?',['платья (12 м)','шторы (10 м)'],0],['3 скатерти по 5 м или 6 салфеток по 2 м?',['скатерти (15 м)','салфетки (12 м)'],0],['7 шарфов по 2 м или 2 пледа по 8 м?',['шарфы (14 м)','пледы (16 м)'],1],['4 костюма по 4 м или 8 фартуков по 2 м?',['костюмы (16 м)','фартуки (16 м)','одинаково'],2]];
+C5.forEach((r,i)=>{const id='k'+i;total++;let sel=-1;
+const b=el(`<div class="task"><p class="q">${r[0]}</p><div class="row">${r[1].map(x=>'<button class="alt opt">'+x.split(' (')[0]+'</button>').join('')}<button>Проверить</button></div><div class="fb"></div></div>`);
+const o=b.querySelectorAll('.opt');o.forEach((x,k)=>x.onclick=()=>{sel=k;o.forEach((y,j)=>y.classList.toggle('sel',j===k))});
+b.querySelector('.row').lastElementChild.onclick=()=>{if(sel<0)return b.querySelector('.fb').textContent='Выбери ответ.';
+mark(b,id,sel===r[2],sel===r[2]?'Верно! '+r[1].filter(x=>x.includes('(')).join(' и '):'Найди расход на каждую группу и сравни.')};$('#c5').appendChild(b)});
+
+/* 6. два действия */
+const C6=[['На 4 платья ушло 12 м ткани. Сколько ткани нужно на 7 таких платьев?',21,'Сначала 12 ÷ 4 = 3 (м) на одно платье.'],['На 3 шторы по 5 м ткани. Остался 1 м. Сколько ткани было сначала?',16,'Сначала найди, сколько ушло на шторы.'],['Из 30 м ткани сшили 5 одинаковых курток. Сколько метров останется, если сшить ещё 3 такие куртки из нового куска?',18,'Сначала найди расход на одну куртку: 30 ÷ 5.']];
+C6.forEach((r,i)=>{const id='x'+i;total++;
+const b=el(`<div class="task"><p class="q">${i+1}. ${r[0]}</p><div class="row"><input type="number" min="0" aria-label="ответ"><button>Проверить</button></div><div class="fb"></div></div>`);
+const f=()=>num(b,id,r[1],'Пока не так. Подсказка: '+r[2]);b.querySelector('button').onclick=f;bindEnter(b,f);$('#c6').appendChild(b)});
+
+/* 7. тренажёр */
+const items=['платьев','штор','сумок','фартуков','скатертей','костюмов','шарфов'];let cur=null,cnt=0,tdone=false;
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+function gen(){const p=rnd(2,9),n=rnd(2,9),t=p*n,w=items[rnd(0,items.length-1)],k=rnd(0,2);
+const qs=[[`На 1 из ${w==='платьев'?'платьев':'предметов'} нужно ${p} м ткани. Сколько ткани нужно на ${n} таких (${w})?`,t],[`Из ${t} м ткани сшили ${n} одинаковых предметов (${w}). Сколько метров ушло на один?`,p],[`На один предмет (${w}) нужно ${p} м. Сколько предметов сошьют из ${t} м ткани?`,n]];
+cur=qs[k];const b=el(`<div class="task"><p class="q">${cur[0]}</p><div class="row"><input type="number" min="0" aria-label="ответ"><button>Проверить</button></div><div class="fb"></div></div>`);
+const f=()=>{const v=b.querySelector('input').value;if(v==='')return;const g=+v===cur[1];b.classList.remove('ok','no');b.classList.add(g?'ok':'no');b.querySelector('.fb').textContent=g?'Верно! ✅':'Попробуй ещё раз.';if(g&&!tdone){tdone=true;cnt++;$('#tc').textContent='Решено в тренажёре: '+cnt}};
+b.querySelector('button').onclick=f;bindEnter(b,f);$('#c7').replaceChildren(b);tdone=false}
+$('#newT').onclick=gen;gen();upd();
+</script>
+</body>
+</html>
